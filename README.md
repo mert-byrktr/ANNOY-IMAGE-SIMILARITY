@@ -8,8 +8,7 @@ To run this project on your local machine, follow these steps:
 
 ### Prerequisites
 - Ensure you have Python installed (version 3.7 or higher).
-- Get the data from https://github.com/statsbomb/open-data/tree/master
-
+- Move your image data to appropriate directory.
 
 ### Clone the Repository
 1. Open your terminal.

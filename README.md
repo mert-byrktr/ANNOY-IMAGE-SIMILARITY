@@ -28,4 +28,18 @@ To run this project on your local machine, follow these steps:
 
 ### Run the Application
 
-This work is still in progress.
+I have pre-computed the model and similarity indexes for my personal image dataset. You can also run it for your own dataset. After that you can use the API to search for similar images.
+
+1. Run the build_annoy_index.py script to build the similarity indexes:
+   ```bash
+   python build_annoy_index.py
+   ```
+
+2. Run the train_breed_model.py script to train the breed model and save the predictions for each image:
+   ```bash
+   python train_breed_model.py
+   ```
+3. Run the app.py script to start the FastAPI server:
+   ```bash
+   uvicorn app:app --host 127.0.0.1 --port 8000 --reload
+   ```

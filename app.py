@@ -10,6 +10,8 @@ from torchvision import models
 import uvicorn
 import base64
 from io import BytesIO
+import webbrowser
+import threading
 
 app = FastAPI()
 
@@ -19,6 +21,9 @@ searcher = ImageSearcher(images_folder, 'dog_index.ann')
 weights = models.ResNet18_Weights.IMAGENET1K_V1
 
 breed_names = weights.meta["categories"]
+
+def open_browser():
+    webbrowser.open('http://127.0.0.1:8000/docs')
 
 
 @app.get("/predict_breed")
@@ -60,4 +65,5 @@ async def search_by_breed(breed: str):
     return FileResponse(grid_path, media_type="image/png")
 
 if __name__ == "__main__":
+    threading.Timer(1, open_browser).start()
     uvicorn.run(app, host="127.0.0.1", port=8000)

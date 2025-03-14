@@ -106,7 +106,6 @@ class ImageSearcher:
             breed_predictions = json.load(f)
 
         normalized_predictions = {img: breed.lower() for img, breed in breed_predictions.items()}
-
         matching_images = [img for img, breed in normalized_predictions.items() if breed_name.lower() in breed]
 
         if not matching_images:
@@ -117,10 +116,9 @@ class ImageSearcher:
                 print(f'No exact matches found for breed: {breed_name}. Did you mean: {suggested_breed}?')
             else:
                 print(f'No exact matches found for breed: {breed_name}')
-            return
+            return []
 
         similar_images = matching_images[:5]
-
         image_grid = Image.new('RGB', (1000, 200))
 
         for j, img in enumerate(similar_images):
@@ -135,6 +133,8 @@ class ImageSearcher:
 
         image_grid.save(f'ImageDumpDogSimilarPredictions/{breed_name}_similar_images.png')
         print(f'Saved similar images for breed: {breed_name}')
+
+        return similar_images
         
 
 if __name__ == '__main__':

@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from train_breed_model import BreedPredictor
 from find_similar_images import ImageSearcher
 import os
@@ -39,6 +39,7 @@ async def search_by_breed(breed: str):
         raise HTTPException(status_code=400, detail="Breed name is required")
 
     similar_images = searcher.search_by_breed(breed)
+    grid_path = f'ImageDumpDogSimilarPredictions/{breed}_similar_images.png'
     if not similar_images:
         raise HTTPException(status_code=404, detail=f"No similar images found for breed: {breed}")
 
@@ -56,7 +57,7 @@ async def search_by_breed(breed: str):
             print(f'Error processing image {img}: {e}')
             continue
 
-    return JSONResponse(content={"similar_images": image_data})
+    return FileResponse(grid_path, media_type="image/png")
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="127.0.0.1", port=8000)

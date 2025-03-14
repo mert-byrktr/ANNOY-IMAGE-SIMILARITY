@@ -6,6 +6,7 @@ from PIL import Image, ImageDraw
 from annoy import AnnoyIndex
 from torch.utils.data import Dataset, DataLoader
 import json
+from get_breed_suggestion import get_breed_suggestion
 
 from fuzzywuzzy import process
 
@@ -109,10 +110,10 @@ class ImageSearcher:
         matching_images = [img for img, breed in normalized_predictions.items() if breed_name.lower() in breed]
 
         if not matching_images:
-            all_breeds = set(normalized_predictions.values())
-            suggested_breed, score = process.extractOne(breed_name.lower(), all_breeds)
+            all_breeds = list(set(normalized_predictions.values()))
+            suggested_breed, score = get_breed_suggestion(breed_name.lower(), all_breeds)
 
-            if score > 80:
+            if suggested_breed:
                 print(f'No exact matches found for breed: {breed_name}. Did you mean: {suggested_breed}?')
             else:
                 print(f'No exact matches found for breed: {breed_name}')

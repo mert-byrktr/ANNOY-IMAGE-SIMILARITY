@@ -1,0 +1,9 @@
+version: '3.8'
+name: annoy-similarity
+
+services:
+  annoy-similarity:
+    container_name: annoy-similarity
+    build: .
+    ports:
+      - "8000:8000"

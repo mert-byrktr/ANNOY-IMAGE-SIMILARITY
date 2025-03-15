@@ -53,5 +53,5 @@ if __name__ == "__main__":
             print(f'Error processing {image_name}: {e}')
 
     # Save predictions to a JSON file
-    with open('breed_predictions.json', 'w') as f:
+    with open('model/breed_predictions.json', 'w') as f:
         json.dump(predictions, f)

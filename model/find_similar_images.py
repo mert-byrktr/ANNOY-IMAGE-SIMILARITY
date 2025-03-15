@@ -6,7 +6,7 @@ from PIL import Image, ImageDraw
 from annoy import AnnoyIndex
 from torch.utils.data import Dataset, DataLoader
 import json
-from get_breed_suggestion import get_breed_suggestion
+from text.get_breed_suggestion import get_breed_suggestion
 
 from fuzzywuzzy import process
 

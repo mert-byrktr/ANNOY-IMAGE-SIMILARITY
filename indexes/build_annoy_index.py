@@ -82,7 +82,7 @@ class ImageIndexer:
         self.annoy_index.save(self.index_file)
 
 if __name__ == '__main__':
-    indexer = ImageIndexer('PetImages/Dog', 'dog_index.ann')
+    indexer = ImageIndexer('PetImages/Dog', 'indexes/dog_index.ann')
     indexer.index_images()
 
 

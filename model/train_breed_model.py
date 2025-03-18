@@ -1,6 +1,5 @@
 import os
 import torch
-import torch.nn as nn
 from torchvision import models, transforms
 from PIL import Image
 import json
@@ -12,12 +11,10 @@ class BreedPredictor:
         self.transform = self.create_transform()
 
     def load_model(self):
-        # Load a pre-trained ResNet model
         weights = models.ResNet18_Weights.IMAGENET1K_V1
         model = models.resnet18(weights=weights)
         model = model.to(self.device)
-        # model.fc = nn.Linear(model.fc.in_features, 2)  # Assuming binary classification (dog/cat)
-        model.eval()  # Set to evaluation mode
+        model.eval() 
         return model
 
     def create_transform(self):
@@ -52,6 +49,5 @@ if __name__ == "__main__":
         except Exception as e:
             print(f'Error processing {image_name}: {e}')
 
-    # Save predictions to a JSON file
     with open('model/breed_predictions.json', 'w') as f:
         json.dump(predictions, f)

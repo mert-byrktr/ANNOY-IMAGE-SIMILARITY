@@ -1,9 +1,9 @@
-version: '3.8'
-name: annoy-similarity
-
 services:
-  annoy-similarity:
-    container_name: annoy-similarity
+  fastapi-app:
     build: .
+    image: merttbayrakttar/annoy-similarity:latest
     ports:
       - "8000:8000"
+    volumes:
+      - .:/app
+    command: uvicorn main:app --host=127.0.0.1 --port=8000

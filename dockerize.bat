@@ -1,46 +1,43 @@
 @echo off
-REM Exit immediately if a command fails (simulate "set -e")
-REM Each command is followed by an error check
-
-REM Variables for Docker Hub
-set DOCKER_USERNAME=merttbayrakttar
-set IMAGE_NAME=annoy-similarity
+REM =========================================================
+REM Configure your Docker Hub username, repository, and tag.
+REM =========================================================
+set USERNAME=merttbayrakttar
+set REPO=annoy-similarity
 set TAG=latest
 
-REM Build the Docker image using docker-compose
-echo Building Docker image...
-docker-compose build
-if errorlevel 1 goto error
-
-REM Tag the image for Docker Hub
-echo Tagging the image...
-docker tag %IMAGE_NAME% %DOCKER_USERNAME%/%IMAGE_NAME%:%TAG%
-if errorlevel 1 goto error
-
-REM Log in to Docker Hub (this will prompt for your password)
+REM =========================================================
+REM Log in to Docker Hub (this will prompt for credentials)
+REM =========================================================
 echo Logging in to Docker Hub...
 docker login
-if errorlevel 1 goto error
+if errorlevel 1 (
+    echo Docker login failed. Please check your credentials.
+    pause
+    exit /b 1
+)
 
-REM Push the image to Docker Hub
-echo Pushing the image to Docker Hub...
-docker push %DOCKER_USERNAME%/%IMAGE_NAME%:%TAG%
-if errorlevel 1 goto error
+REM =========================================================
+REM Build the Docker image defined in docker-compose.yml
+REM =========================================================
+echo Building the Docker image with Docker Compose...
+docker compose up -d --build
+if errorlevel 1 (
+    echo Docker Compose build failed.
+    pause
+    exit /b 1
+)
 
-echo Docker image pushed to Docker Hub: %DOCKER_USERNAME%/%IMAGE_NAME%:%TAG%
+REM =========================================================
+REM Push the Docker image using Docker Compose push command
+REM =========================================================
+echo Pushing the Docker image to Docker Hub via Docker Compose...
+docker compose push
+if errorlevel 1 (
+    echo Docker Compose push failed.
+    pause
+    exit /b 1
+)
 
-REM Now run docker-compose to start the services
-echo Starting Docker Compose services...
-docker-compose up -d
-if errorlevel 1 goto error
-
-echo Docker Compose services are running. Access the app at http://localhost:8000
+echo Docker image %USERNAME%/%REPO%:%TAG% pushed successfully!
 pause
-goto end
-
-:error
-echo An error occurred. Exiting.
-pause
-exit /b 1
-
-:end

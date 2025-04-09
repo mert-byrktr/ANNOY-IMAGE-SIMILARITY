@@ -28,7 +28,7 @@ class BreedPredictor:
         with torch.no_grad():
             output = self.model(image_tensor)
             _, predicted = torch.max(output, 1)
-        return predicted.item()  # Return the predicted class index
+        return predicted.item()
 
 if __name__ == "__main__":
     # Example usage

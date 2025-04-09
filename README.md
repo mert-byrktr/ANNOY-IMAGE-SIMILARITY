@@ -43,3 +43,5 @@ I have pre-computed the model and similarity indexes for my personal image datas
    ```bash
    uvicorn app:app --host 127.0.0.1 --port 8000 --reload
    ```
+
+4. Type the breed you want to search for in /search api.

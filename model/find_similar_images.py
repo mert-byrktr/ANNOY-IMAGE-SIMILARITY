@@ -103,7 +103,7 @@ class ImageSearcher:
 
     
     def search_by_breed(self, breed_name):
-        with open('breed_predictions.json', 'r') as f:
+        with open('model/breed_predictions.json', 'r') as f:
             breed_predictions = json.load(f)
 
         normalized_predictions = {img: breed.lower() for img, breed in breed_predictions.items()}

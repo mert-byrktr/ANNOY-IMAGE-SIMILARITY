@@ -1,11 +1,9 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse, FileResponse
-from train_breed_model import BreedPredictor
-from find_similar_images import ImageSearcher
+from model.train_breed_model import BreedPredictor
+from model.find_similar_images import ImageSearcher
 import os
 from PIL import Image
-import json
-import torch
 from torchvision import models
 import uvicorn
 import base64
@@ -17,7 +15,7 @@ app = FastAPI()
 
 predictor = BreedPredictor()
 images_folder = 'PetImages/Dog'
-searcher = ImageSearcher(images_folder, 'dog_index.ann')
+searcher = ImageSearcher(images_folder, 'indexes/dog_index.ann')
 weights = models.ResNet18_Weights.IMAGENET1K_V1
 
 breed_names = weights.meta["categories"]

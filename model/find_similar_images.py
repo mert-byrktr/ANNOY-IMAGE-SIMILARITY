@@ -63,43 +63,43 @@ class ImageSearcher:
             transforms.ToTensor()
         ])
 
-    def search_images(self):
-        dataset = ImageDataset(self.images_folder, transform=self.transform)
-        dataloader = DataLoader(dataset, batch_size=1, shuffle=False)
+    # def search_images(self):
+    #     dataset = ImageDataset(self.images_folder, transform=self.transform)
+    #     dataloader = DataLoader(dataset, batch_size=1, shuffle=False)
 
-        image_grid = Image.new('RGB', (1000, 1000))
+    #     image_grid = Image.new('RGB', (1000, 1000))
 
-        for i, (input_tensor, image_name) in enumerate(dataloader):
-            input_tensor = input_tensor.to(self.device)
+    #     for i, (input_tensor, image_name) in enumerate(dataloader):
+    #         input_tensor = input_tensor.to(self.device)
 
-            with torch.no_grad():
-                output_tensor = self.model(input_tensor)
+    #         with torch.no_grad():
+    #             output_tensor = self.model(input_tensor)
 
-            vector = output_tensor[0].cpu().numpy()
-            nns = self.annoy_index.get_nns_by_vector(vector, 24)
+    #         vector = output_tensor[0].cpu().numpy()
+    #         nns = self.annoy_index.get_nns_by_vector(vector, 24)
 
-            try:
-                image = Image.open(os.path.join(self.images_folder, image_name[0])).convert('RGB')
-            except Exception as e:
-                print(f'Error opening {image_name[0]}: {e}')
-                continue  # Skip this image if it cannot be opened
+    #         try:
+    #             image = Image.open(os.path.join(self.images_folder, image_name[0])).convert('RGB')
+    #         except Exception as e:
+    #             print(f'Error opening {image_name[0]}: {e}')
+    #             continue  # Skip this image if it cannot be opened
 
-            image = image.resize((200, 200))
-            image_draw = ImageDraw.Draw(image)
-            image_draw.rectangle([(0, 0), (199, 199)], outline='red', width=8)
-            image_grid.paste(image, ((0, 0)))
+    #         image = image.resize((200, 200))
+    #         image_draw = ImageDraw.Draw(image)
+    #         image_draw.rectangle([(0, 0), (199, 199)], outline='red', width=8)
+    #         image_grid.paste(image, ((0, 0)))
 
-            for j in range(24):
-                try:
-                    search_image = Image.open(os.path.join(self.images_folder, dataset.images[nns[j]])).convert('RGB')
-                except Exception as e:
-                    print(f'Error opening {dataset.images[nns[j]]}: {e}')
-                    continue  # Skip this image if it cannot be opened
+    #         for j in range(24):
+    #             try:
+    #                 search_image = Image.open(os.path.join(self.images_folder, dataset.images[nns[j]])).convert('RGB')
+    #             except Exception as e:
+    #                 print(f'Error opening {dataset.images[nns[j]]}: {e}')
+    #                 continue  # Skip this image if it cannot be opened
 
-                search_image = search_image.resize((200, 200))
-                image_grid.paste(search_image, ((200 * ((j + 1) % 5), 200 * ((j + 1) // 5))))
+    #             search_image = search_image.resize((200, 200))
+    #             image_grid.paste(search_image, ((200 * ((j + 1) % 5), 200 * ((j + 1) // 5))))
 
-            image_grid.save(f'ImageDumpDog/image_{i}.png')
+    #         image_grid.save(f'ImageDumpDog/image_{i}.png')
 
     
     def search_by_breed(self, breed_name):

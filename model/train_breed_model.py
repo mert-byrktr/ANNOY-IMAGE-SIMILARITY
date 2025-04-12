@@ -1,8 +1,10 @@
-import os
-import torch
-from torchvision import models, transforms
-from PIL import Image
 import json
+import os
+
+import torch
+from PIL import Image
+from torchvision import models, transforms
+
 
 class BreedPredictor:
     def __init__(self):

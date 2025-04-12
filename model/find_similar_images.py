@@ -1,14 +1,16 @@
+import json
 import os
+
 import torch
 import torch.nn as nn
-from torchvision import models, transforms
-from PIL import Image, ImageDraw
 from annoy import AnnoyIndex
-from torch.utils.data import Dataset, DataLoader
-import json
+from fuzzywuzzy import process
+from PIL import Image, ImageDraw
+from torch.utils.data import DataLoader, Dataset
+from torchvision import models, transforms
+
 from text.get_breed_suggestion import get_breed_suggestion
 
-from fuzzywuzzy import process
 
 class ImageDataset(Dataset):
     def __init__(self, images_folder, transform=None):

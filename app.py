@@ -1,15 +1,17 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import JSONResponse, FileResponse
-from model.train_breed_model import BreedPredictor
-from model.find_similar_images import ImageSearcher
+import base64
 import os
+import threading
+import webbrowser
+from io import BytesIO
+
+import uvicorn
+from fastapi import FastAPI, HTTPException
+from fastapi.responses import FileResponse, JSONResponse
 from PIL import Image
 from torchvision import models
-import uvicorn
-import base64
-from io import BytesIO
-import webbrowser
-import threading
+
+from model.find_similar_images import ImageSearcher
+from model.train_breed_model import BreedPredictor
 
 app = FastAPI()
 
